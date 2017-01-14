@@ -31,9 +31,24 @@ spy.ref <- read.csv('spry4_exp_ref.csv')
 # combine exp.ref with main table
 spry <-  merge(spry, spy.ref)
 
-## Correct for Z-associated fluorescence decay
-source('empirical_bayes.R')
-spry <- eb.cor(spry)
+## Correct for Z-associated fluorescence decay for all channels
+source('eb_cor.R')
+channels <- c('CH1.Avg', 'CH2.Avg', 'CH3.Avg', 'CH5.Avg')
+ebLogCor <- matrix(0, nrow = length(spry$Embryo_ID), 
+                   ncol = length(channels),
+                   dimnames = list(c(), channels))
+for (c in channels) {
+        ebLogCor[, c] <- ebcor(spry, c)
+}
+ebLogCor <- data.frame(ebLogCor)
+ebLogCor <- rename(ebLogCor, CH1.ebLogCor = CH1.Avg, 
+                   CH2.ebLogCor = CH2.Avg, 
+                   CH3.ebLogCor = CH3.Avg,
+                   CH5.ebLogCor = CH5.Avg)
+
+## Combine spry with the EB corrected values
+spry <- cbind(spry, ebLogCor)
+rm(ebLogCor)
 
 ## Assign identities using the thresholding method
 source('identify.R')

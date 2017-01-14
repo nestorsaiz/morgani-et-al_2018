@@ -13,13 +13,13 @@ id.linear <- function(dataframe) {
         ## (after inverting the logarithm, EB-corrected values)
         dataframe$Identity.lin <- ifelse(dataframe$TE_ICM == 'TE', 'TE', 
                                          ifelse((exp(dataframe$CH5.ebLogCor) < 250 &
-                                                         exp(dataframe$CH3.ebLogCor) < 250), 
+                                                         exp(dataframe$CH3.ebLogCor) < 150), 
                                                 'DN', 
                                                 ifelse((exp(dataframe$CH5.ebLogCor) > 250 &
-                                                                exp(dataframe$CH3.ebLogCor) < 250), 
+                                                                exp(dataframe$CH3.ebLogCor) < 150), 
                                                        'PRE', 
                                                        ifelse((exp(dataframe$CH5.ebLogCor) < 250 &
-                                                                       exp(dataframe$CH3.ebLogCor) > 250), 
+                                                                       exp(dataframe$CH3.ebLogCor) > 150), 
                                                               'EPI', 'DP'))))
         # Make Identity.lin a factor
         dataframe$Identity.lin <- factor(dataframe$Identity.lin, 
