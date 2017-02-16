@@ -16,6 +16,11 @@ setwd("~/Documents/Data_Spry4/spry4_analysis")
 # Drop empty columns
 spry$X.1 <- NULL
 
+## Read in experimental reference file
+spy.ref <- read.csv('spry4_exp_ref.csv')
+# combine exp.ref with main table
+spry <-  merge(spry, spy.ref)
+
 ## Calculate cell count per embryo in spry
 spy.cellcount <- spry %>% group_by(Embryo_ID) %>%
         summarize(Cellcount = n())
@@ -26,10 +31,12 @@ rm(spy.cellcount)
 source('stage.R')
 spry <- stage(spry)
 
-## Read in experimental reference file
-spy.ref <- read.csv('spry4_exp_ref.csv')
-# combine exp.ref with main table
-spry <-  merge(spry, spy.ref)
+## Calculate the average number of cells per litter
+avg.litter <- spry %>% group_by(Litter) %>% 
+        summarize(litter.mean = mean(Cellcount))
+## Combine with main table and remove avg table
+spry <- merge(spry, avg.litter)
+rm(avg.litter)
 
 ## Correct for Z-associated fluorescence decay for all channels
 source('eb_cor.R')
@@ -137,11 +144,3 @@ rm(aa, bb)
 spry.ratiocounts <- subset(spry.ratiocounts, PRE >= 1 & DN.EPI >= 1)
 ## Calculate the ratio as PRE/EPI
 spry.ratiocounts$ratio <- spry.ratiocounts$PRE / spry.ratiocounts$DN.EPI
-
-## Calculate the average number of cells per litter
-avg.litter <- spry %>% group_by(Litter) %>% 
-        summarize(litter.mean = mean(Cellcount))
-## Combine with main table and remove avg table
-spry <- merge(spry, avg.litter)
-rm(avg.litter)
-
