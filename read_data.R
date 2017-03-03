@@ -32,7 +32,7 @@ source('stage.R')
 spry <- stage(spry)
 
 ## Calculate the average number of cells per litter
-avg.litter <- spry %>% group_by(Litter) %>% 
+avg.litter <- spry %>% group_by(Litter, Treatment) %>% 
         summarize(litter.mean = mean(Cellcount))
 ## Combine with main table and remove avg table
 spry <- merge(spry, avg.litter)

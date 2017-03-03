@@ -11,18 +11,20 @@ id.linear <- function(dataframe) {
         ## Assign identity to embryos based on a fixed threshold
         ## for GATA6 (Channel 5) and NANOG (Channel 3) on linear scale
         ## (after inverting the logarithm, EB-corrected values)
-        dataframe$Identity.lin <- ifelse(dataframe$TE_ICM == 'TE', 'TE', 
-                                         ifelse((exp(dataframe$CH5.ebLogCor) < 250 &
-                                                         exp(dataframe$CH3.ebLogCor) < 150), 
-                                                'DN', 
-                                                ifelse((exp(dataframe$CH5.ebLogCor) > 250 &
+        dataframe$Identity.lin <- ifelse(dataframe$TE_ICM %in% c('out', 'in'), 'morula',
+                                         ifelse(dataframe$TE_ICM == 'TE', 'TE', 
+                                                ifelse((exp(dataframe$CH5.ebLogCor) < 250 &
                                                                 exp(dataframe$CH3.ebLogCor) < 150), 
-                                                       'PRE', 
-                                                       ifelse((exp(dataframe$CH5.ebLogCor) < 250 &
-                                                                       exp(dataframe$CH3.ebLogCor) > 150), 
-                                                              'EPI', 'DP'))))
+                                                       'DN', 
+                                                       ifelse((exp(dataframe$CH5.ebLogCor) > 250 &
+                                                                       exp(dataframe$CH3.ebLogCor) < 150), 
+                                                              'PRE', 
+                                                              ifelse((exp(dataframe$CH5.ebLogCor) < 250 &
+                                                                              exp(dataframe$CH3.ebLogCor) > 150), 
+                                                                     'EPI', 'DP')))))
         # Make Identity.lin a factor
         dataframe$Identity.lin <- factor(dataframe$Identity.lin, 
-                                         levels = c('DN', 'EPI', 'DP', 'PRE', 'TE'))
+                                         levels = c('DN', 'EPI', 'DP', 'PRE', 
+                                                    'TE', 'morula'))
         return(dataframe)
 }

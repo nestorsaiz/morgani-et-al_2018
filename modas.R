@@ -16,7 +16,7 @@ moda <- function(dataset, stage, marker) {
 
 # Extract the levels that Stage takes in the dataset
 spry.stage <- levels(spry$Stage)
-spry.stage <- spry.stage[2:6]
+#spry.stage <- spry.stage[2:6]
 # Create a matrix with columns for Stage, Mode and Max
 modas <- matrix(c(1:(3*length(spry.stage))), nrow = length(spry.stage), 
                 ncol = 3,
