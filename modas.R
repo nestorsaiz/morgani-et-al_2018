@@ -3,9 +3,10 @@
 ## fixed on collection
 moda <- function(dataset, stage, marker) {
         # Subset as described above
-        x <- subset(dataset, Treatment == 'Littermate' &
-                    Genotype == 'het' & TE_ICM == 'ICM' &  
-                    Stage == stage & CH2.marker == marker)$CH2.ebLogCor
+        x <- subset(dataset, Treatment == 'Littermate' & 
+                            Genotype == 'het' & TE_ICM != 'TE' & 
+                            !Litter %in% c('V', 'AG') & 
+                            Stage == stage & venus.gfp == marker)$CH2.ebLogCor
         # Calculate the density distribution of Channel 2 values (x)
         d <- density(x)
         # Extract the mode and the maximum value
