@@ -110,10 +110,9 @@ spry$Identity.km <- factor(spry$Identity.km, levels = c('DN', 'EPI', 'DP',
 spry$TE_ICM <- factor(spry$TE_ICM, levels = c('TE', 'ICM', 'in', 'out'))
 
 ################################################
-## Do multiple calculations ####################
-################################################
 
-## Calculate number of embryos for each group (stage x treatment x genotype x IF)
+## Calculate number of embryos for each group 
+## (stage x treatment x genotype x IF)
 n.embryos <- spry %>% group_by(Embryo_ID, Stage, Treatment, 
                                Genotype, venus.gfp) %>% 
         summarize() %>% 
@@ -121,30 +120,9 @@ n.embryos <- spry %>% group_by(Embryo_ID, Stage, Treatment,
         summarize(N = n())
 ## Write out the N numbers to a .csv file for quick reference
 n.embryos2 <- dcast(subset(n.embryos, Treatment != 'neg.control'), 
-                   Genotype + Stage ~ interaction(Treatment, venus.gfp), 
-                   value.var = 'N')
+                    Genotype + Stage ~ interaction(Treatment, venus.gfp), 
+                    value.var = 'N')
 write.csv(n.embryos2, file = 'N_numbers.csv', row.names = FALSE)
-
-## Calculate the average level for each fluorescence channel
-## for each embryo and lineage
-meantensity <- spry %>%
-        group_by(Experiment, Litter, Embryo_ID, Identity.km, TE_ICM, 
-                 Cellcount, Stage, Exp_date, Img_date, Genotype, 
-                 Treatment, Tt_length, Tt_stage, venus.gfp, ab.2) %>%
-        summarize(Count = n(), 
-                  CH2.mean = mean(CH2.ebLogCor), 
-                  CH3.mean = mean(CH3.ebLogCor), 
-                  CH5.mean = mean(CH5.ebLogCor))
-
-## Calculate the number of cells per lineage for each embryo
-spry.lincounts <- spry %>% filter(Treatment == 'Littermate') %>% 
-        group_by(Experiment, Litter, 
-                 Embryo_ID, TE_ICM, 
-                 Cellcount, Stage, 
-                 Exp_date, Img_date, 
-                 Genotype, Treatment, 
-                 Identity.km, venus.gfp, ab.2) %>%
-        summarize(count = n())
 
 ## If there are no errors in the code, 'All good :)' should print to the console
 print('All good :)')
