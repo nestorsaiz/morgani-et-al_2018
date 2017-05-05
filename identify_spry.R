@@ -4,7 +4,7 @@
 
 ## Function to do an exploratory plot of GATA6 vs NANOG values for ICM cells
 spread.icm <- function(dataset) {
-        ol <- ggplot(subset(dataset, TE_ICM != 'TE'), 
+        ol <- ggplot(dataset, 
                      aes(x = CH5.ebLogCor, y = CH3.ebLogCor))
         ol <- ol + geom_jitter(aes(color = Cellcount), size = 3, alpha = 0.6)
         ol <- ol + coord_fixed() + theme_bw()

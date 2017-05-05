@@ -102,7 +102,7 @@ spry$Genotype <- factor(spry$Genotype, levels = c('wt', 'het', 'unknown', ''))
 spry$Treatment <- factor(spry$Treatment, levels = c('Littermate', 'Control', 
                                                     'FGF4_1000', 'AZD_1', 
                                                     'PD03_1', 'neg.control'))
-spry$venus.gfp <- factor(spry$venus.gfp, levels = c('Venus', 'GFP.ck'))
+spry$venus.gfp <- factor(spry$venus.gfp, levels = c('Venus', 'GFP.ck', 'no.ab'))
 spry$ab.2 <- factor(spry$ab.2, levels = c('no.ab', 'Hoechst', 'af488.ck', 
                                           'af568.gt', 'af647.rb', 'af647.ck'))
 spry$Identity.km <- factor(spry$Identity.km, levels = c('DN', 'EPI', 'DP', 
