@@ -22,6 +22,13 @@ spry$X.1 <- NULL
 
 ## Read in experimental reference file
 spy.ref <- read.csv('spry4_exp_ref.csv')
+## Rename 'homo' genotype to 'ko' since it is a knockout
+ko <- subset(spy.ref, Genotype == 'homo')
+ko$Genotype <- 'ko'
+rest <- subset(spy.ref, Genotype != 'homo')
+rest$Genotype <- as.character(rest$Genotype)
+## Combine ko and rest to produce spy.ref again
+spy.ref <- rbind(rest, ko)
 ## and combine exp.ref with main table
 spry <-  merge(spry, spy.ref)
 
@@ -98,7 +105,7 @@ spry <- merge(spry, spy.gfp)
 ################################################
 
 ## Order factors as desired
-spry$Genotype <- factor(spry$Genotype, levels = c('wt', 'het', 'unknown', ''))
+spry$Genotype <- factor(spry$Genotype, levels = c('wt', 'het', 'ko', 'unknown'))
 spry$Treatment <- factor(spry$Treatment, levels = c('Littermate', 'Control', 
                                                     'FGF4_1000', 'AZD_1', 
                                                     'PD03_1', 'neg.control'))
