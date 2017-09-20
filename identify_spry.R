@@ -76,3 +76,9 @@ spry$Identity.km[is.icm] <- c('PRE', 'DP', 'EPI', 'DN')[min.ssq]
 spry$Identity.km <- factor(spry$Identity.km, 
                            levels = c('DN', 'EPI', 'DP', 'PRE', 
                                       'TE', 'morula'))
+
+## Plot data by stage to visualize the outcome
+qplot(CH5.ebLogCor,  CH3.ebLogCor,
+      data = subset(spry, TE_ICM == 'ICM' & Treatment == "Littermate"), 
+      color = Identity.km) + theme_bw() + scale_color_manual(values = idcols) + 
+        facet_grid(Genotype1 ~ Stage) + coord_fixed()

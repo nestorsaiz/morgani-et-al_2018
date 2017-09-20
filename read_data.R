@@ -19,14 +19,16 @@ rm(files)
 setwd("~/Documents/Data_Spry4/spry4_analysis")
 # Drop empty columns
 spry$X.1 <- NULL
+spry$X.2 <- NULL
+spry$X.3 <- NULL
 
 ## Read in experimental reference file
 spy.ref <- read.csv('spry4_exp_ref.csv')
 ## Rename 'homo' genotype to 'ko' since it is a knockout
-ko <- subset(spy.ref, Genotype == 'homo')
-ko$Genotype <- 'ko'
-rest <- subset(spy.ref, Genotype != 'homo')
-rest$Genotype <- as.character(rest$Genotype)
+ko <- subset(spy.ref, Genotype1 == 'homo')
+ko$Genotype1 <- 'ko'
+rest <- subset(spy.ref, Genotype1 != 'homo')
+rest$Genotype1 <- as.character(rest$Genotype1)
 ## Combine ko and rest to produce spy.ref again
 spy.ref <- rbind(rest, ko)
 ## and combine exp.ref with main table
