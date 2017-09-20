@@ -72,10 +72,9 @@ spry$Identity.km <- rep(NA, nrow(spry))
 spry$Identity.km[is.morula] <- 'morula'
 spry$Identity.km[is.te] <- 'TE'
 ## Assign identity to ICM cells based on min.ssq values
-spry$Identity.km[is.icm] <- c('PRE', 'DP', 'EPI', 'DN')[min.ssq]
-spry$Identity.km <- factor(spry$Identity.km, 
-                           levels = c('DN', 'EPI', 'DP', 'PRE', 
-                                      'TE', 'morula'))
+spry$Identity.km[is.icm] <- c('EPI', 'DP', 'PRE', 'DN')[min.ssq]
+spry$Identity.km <- factor(spry$Identity.km, levels = c('TE', 'PRE', 'DP', 
+                                                        'EPI', 'DN', 'morula'))
 
 ## Plot data by stage to visualize the outcome
 qplot(CH5.ebLogCor,  CH3.ebLogCor,

@@ -5,6 +5,8 @@ library('reshape2')
 library('ggplot2')
 library('locfit')
 
+options(stringsAsFactors = F)
+
 ################################################
 ## Read in data and calculate cell numbers #####
 ################################################
@@ -34,23 +36,14 @@ spy.ref <- rbind(rest, ko)
 ## and combine exp.ref with main table
 spry <-  merge(spry, spy.ref)
 
-## Calculate cell count per embryo in spry
-spy.cellcount <- spry %>% group_by(Embryo_ID) %>%
-        summarize(Cellcount = n())
-## and add count to main table
-spry <- merge(spry, spy.cellcount)
-rm(spy.cellcount)
+## Calculate total number of cells per embryo, litter average and
+## number of ICM cells per embryo
+source('do_counts.R')
+spry <- do.counts(spry)
 
 ## Load staging function and stage spry embryos
 source('stage.R')
 spry <- stage(spry)
-
-## Calculate the average number of cells per litter
-avg.litter <- spry %>% group_by(Litter, Treatment) %>% 
-        summarize(litter.mean = mean(Cellcount))
-## Combine with main table and remove avg table
-spry <- merge(spry, avg.litter)
-rm(avg.litter)
 
 ################################################
 ## Correct Z-associated fluorescence decay #####
@@ -96,7 +89,8 @@ spy.gfp <- spy.gfp %>% group_by(Experiment,
                                 Marker, 
                                 ab.2) %>% 
         summarize()
-spy.gfp <- rename(spy.gfp, venus.gfp = Marker)
+spy.gfp <- rename(spy.gfp, CH2.marker = Marker, 
+                  CH2.ab2 = ab.2)
 
 # Merge with main table to divide embryos into
 # those stained with anti-GFP and those with endogenous Venus
@@ -107,15 +101,13 @@ spry <- merge(spry, spy.gfp)
 ################################################
 
 ## Order factors as desired
-spry$Genotype <- factor(spry$Genotype, levels = c('wt', 'het', 'ko', 'unknown'))
+spry$Genotype1 <- factor(spry$Genotype1, levels = c('wt', 'het', 'ko', 'unknown'))
 spry$Treatment <- factor(spry$Treatment, levels = c('Littermate', 'Control', 
                                                     'FGF4_1000', 'AZD_1', 
                                                     'PD03_1', 'neg.control'))
-spry$venus.gfp <- factor(spry$venus.gfp, levels = c('Venus', 'GFP.ck', 'no.ab'))
-spry$ab.2 <- factor(spry$ab.2, levels = c('no.ab', 'Hoechst', 'af488.ck', 
+spry$CH2.marker <- factor(spry$CH2.marker, levels = c('Venus', 'GFP.ck', 'no.ab'))
+spry$CH2.ab2 <- factor(spry$CH2.ab2, levels = c('no.ab', 'Hoechst', 'af488.ck', 
                                           'af568.gt', 'af647.rb', 'af647.ck'))
-spry$Identity.km <- factor(spry$Identity.km, levels = c('DN', 'EPI', 'DP', 
-                                                        'PRE', 'TE', 'morula'))
 spry$TE_ICM <- factor(spry$TE_ICM, levels = c('TE', 'ICM', 'in', 'out'))
 
 ################################################
@@ -123,13 +115,13 @@ spry$TE_ICM <- factor(spry$TE_ICM, levels = c('TE', 'ICM', 'in', 'out'))
 ## Calculate number of embryos for each group 
 ## (stage x treatment x genotype x IF)
 n.embryos <- spry %>% group_by(Embryo_ID, Stage, Treatment, 
-                               Genotype, venus.gfp) %>% 
+                               Genotype1, CH2.marker) %>% 
         summarize() %>% 
-        group_by(Stage, Treatment, Genotype, venus.gfp) %>% 
+        group_by(Stage, Treatment, Genotype1, CH2.marker) %>% 
         summarize(N = n())
 ## Write out the N numbers to a .csv file for quick reference
 n.embryos2 <- dcast(subset(n.embryos, Treatment != 'neg.control'), 
-                    Genotype + Stage ~ interaction(Treatment, venus.gfp), 
+                    Genotype1 + Stage ~ interaction(Treatment, CH2.marker), 
                     value.var = 'N')
 write.csv(n.embryos2, file = 'N_numbers.csv', row.names = FALSE)
 
