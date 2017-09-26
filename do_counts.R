@@ -12,7 +12,7 @@ do.counts <- function(dataset) {
                 summarize(Cellcount = n())
         dataset <- merge(dataset, counts)
         ## Calculate the number of ICM cells per embryo
-        icmcounts <- dataset %>% filter(TE_ICM == 'ICM') %>% 
+        icmcounts <- dataset %>% filter(TE_ICM %in% c('ICM', 'in')) %>% 
                 group_by(Embryo_ID) %>% 
                 summarize(icm.count = n())
         dataset <- merge(dataset, icmcounts)

@@ -80,21 +80,26 @@ source('identify_spry.R')
 
 ## Load immunofluorescence (IF) reference sheet
 spy.if <- read.csv('spry4_if.csv')
-# Extract information for Channel 2 (Venus or anti-GFP)
-# as rest of channels are the same across (except for neg.controls)
-spy.gfp <- subset(spy.if, Channel == 'CH2')
-# Collapse information to Experiment, litter and marker
-spy.gfp <- spy.gfp %>% group_by(Experiment, 
-                                Litter, 
-                                Marker, 
-                                ab.2) %>% 
+## Extract info for Channels 2, 3 and 5 
+## and their associated marker (primary ab) and secondary antibody (ab.2)
+spy.aa <- subset(spy.if, Channel %in% c('CH2', 'CH3', 'CH5')) %>% 
+        group_by(Experiment, Litter, Channel, Marker) %>%
         summarize()
-spy.gfp <- rename(spy.gfp, CH2.marker = Marker, 
-                  CH2.ab2 = ab.2)
+spy.bb <- subset(spy.if, Channel %in% c('CH2', 'CH3', 'CH5')) %>% 
+        group_by(Experiment, Litter, Channel, ab.2) %>%
+        summarize()
+## Cast in wide format 
+spy.aa <- dcast(spy.aa, Experiment ~ Channel, value.var = 'Marker')
+spy.aa <- rename(spy.aa, CH2.marker = CH2, CH3.marker = CH3, CH5.marker = CH5)
+spy.bb <- dcast(spy.bb, Experiment ~ Channel, value.var = 'ab.2')
+spy.bb <- rename(spy.bb, CH2.ab2 = CH2, CH3.ab2 = CH3, CH5.ab2 = CH5)
+## and combine marker and ab.2 data
+spy.if <- merge(spy.aa, spy.bb)
+rm(spy.aa, spy.bb)
 
 # Merge with main table to divide embryos into
 # those stained with anti-GFP and those with endogenous Venus
-spry <- merge(spry, spy.gfp)
+spry <- merge(spry, spy.if)
 
 ################################################
 ## Tidy up and order factors for plotting ######
@@ -108,7 +113,7 @@ spry$Treatment <- factor(spry$Treatment, levels = c('Littermate', 'Control',
 spry$CH2.marker <- factor(spry$CH2.marker, levels = c('Venus', 'GFP.ck', 'no.ab'))
 spry$CH2.ab2 <- factor(spry$CH2.ab2, levels = c('no.ab', 'Hoechst', 'af488.ck', 
                                           'af568.gt', 'af647.rb', 'af647.ck'))
-spry$TE_ICM <- factor(spry$TE_ICM, levels = c('TE', 'ICM', 'in', 'out'))
+spry$TE_ICM <- factor(spry$TE_ICM, levels = c('TE', 'ICM', 'out', 'in'))
 
 ################################################
 

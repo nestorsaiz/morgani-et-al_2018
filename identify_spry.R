@@ -32,7 +32,7 @@ bb <- spry %>% filter(Treatment == 'Littermate',
                       ## more data will yield denser clusters
                       #Genotype ==  'wt', 
                       Stage %in% c('32_64', '90_120', '120_150'),  
-                      TE_ICM != 'TE') %>% 
+                      TE_ICM %in% c('ICM', 'in')) %>% 
         select(Cellcount, CH5.ebLogCor, CH3.ebLogCor)
 ## Scatter plot of selected data
 spread.icm(bb)
@@ -48,10 +48,10 @@ dn <- c(pp$centers[, 1][which.min(pp$centers[, 1])],
 centers <- rbind(pp$centers, dn, deparse.level = 0)
 
 ## Create conditions to test for ICM (is.icm) and morulas (is.morula)
-is.icm <- spry$Stage != '<32' & spry$TE_ICM == 'ICM' & 
+is.icm <- spry$Stage != '16_32' & spry$TE_ICM == 'ICM' & 
         !spry$Litter %in% c('V', 'AG')
-is.te <- spry$Stage != '<32' & spry$TE_ICM == 'TE'
-is.morula <- spry$Stage == '<32'
+is.te <- spry$Stage != '16_32' & spry$TE_ICM == 'TE'
+is.morula <- spry$Stage == '16_32'
 
 ## Make matrix to hold sum of squares (rows = icm rows, 4 columns)
 ssq <- matrix(0, length(spry$TE_ICM[is.icm]), 4)
@@ -76,8 +76,11 @@ spry$Identity.km[is.icm] <- c('EPI', 'DP', 'PRE', 'DN')[min.ssq]
 spry$Identity.km <- factor(spry$Identity.km, levels = c('TE', 'PRE', 'DP', 
                                                         'EPI', 'DN', 'morula'))
 
+## Load standard plotting aesthetics
+source('plotting-aes.R')
 ## Plot data by stage to visualize the outcome
 qplot(CH5.ebLogCor,  CH3.ebLogCor,
-      data = subset(spry, TE_ICM == 'ICM' & Treatment == "Littermate"), 
-      color = Identity.km) + theme_bw() + scale_color_manual(values = idcols) + 
+      data = subset(spry, TE_ICM == 'ICM' & Treatment == "Littermate" & 
+                            !Litter %in% c('AG', 'V')), 
+      color = Identity.km) + looks + scale_color_manual(values = idcols) + 
         facet_grid(Genotype1 ~ Stage) + coord_fixed()
