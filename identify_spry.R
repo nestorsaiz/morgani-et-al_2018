@@ -48,10 +48,10 @@ dn <- c(pp$centers[, 1][which.min(pp$centers[, 1])],
 centers <- rbind(pp$centers, dn, deparse.level = 0)
 
 ## Create conditions to test for ICM (is.icm) and morulas (is.morula)
-is.icm <- spry$Stage != '16_32' & spry$TE_ICM == 'ICM' & 
+is.icm <- spry$Cellcount > 31 & spry$TE_ICM == 'ICM' & 
         !spry$Litter %in% c('V', 'AG')
-is.te <- spry$Stage != '16_32' & spry$TE_ICM == 'TE'
-is.morula <- spry$Stage == '16_32'
+is.te <- spry$Cellcount > 31 & spry$TE_ICM == 'TE'
+is.morula <- spry$Cellcount <= 31
 
 ## Make matrix to hold sum of squares (rows = icm rows, 4 columns)
 ssq <- matrix(0, length(spry$TE_ICM[is.icm]), 4)
@@ -81,6 +81,6 @@ source('plotting-aes.R')
 ## Plot data by stage to visualize the outcome
 qplot(CH5.ebLogCor,  CH3.ebLogCor,
       data = subset(spry, TE_ICM == 'ICM' & Treatment == "Littermate" & 
-                            !Litter %in% c('AG', 'V')), 
+                            !Litter %in% c('AG', 'V') & Genotype1 != 'unknown'), 
       color = Identity.km) + looks + scale_color_manual(values = idcols) + 
         facet_grid(Genotype1 ~ Stage) + coord_fixed()

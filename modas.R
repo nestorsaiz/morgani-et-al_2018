@@ -4,9 +4,9 @@
 moda <- function(dataset, stage, marker) {
         # Subset as described above
         x <- subset(dataset, Treatment == 'Littermate' & 
-                            Genotype == 'het' & TE_ICM != 'TE' & 
+                            Genotype1 == 'het' & TE_ICM != 'TE' & 
                             !Litter %in% c('V', 'AG') & 
-                            Stage == stage & venus.gfp == marker)$CH2.ebLogCor
+                            Stage == stage & CH2.marker == marker)$CH2.ebLogCor
         # Calculate the density distribution of Channel 2 values (x)
         d <- density(x)
         # Extract the mode and the maximum value
@@ -16,7 +16,7 @@ moda <- function(dataset, stage, marker) {
 ## Create a matrix to be filled with the mode and max for each stage
 
 # Extract the levels that Stage takes in the dataset
-spry.stage <- levels(spry$Stage)
+spry.stage <- unique(spry$Stage)
 #spry.stage <- spry.stage[2:6]
 # Create a matrix with columns for Stage, Mode and Max
 modas <- matrix(c(1:(3*length(spry.stage))), nrow = length(spry.stage), 

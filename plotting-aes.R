@@ -22,5 +22,11 @@ looks <- theme_bw() + theme(axis.text = element_text(size = 15,
                                                        color = 'black'), 
                             legend.title = element_text(size = 20, 
                                                         color = 'black'), 
-                            axis.ticks = element_line(color = 'black'), 
-                            panel.grid = element_blank())
+                            axis.ticks = element_line(color = 'black', 
+                                                      size = 0.5), 
+                            panel.grid = element_blank(), 
+                            strip.background = element_blank(), 
+                            strip.text = element_text(size = 17.5, 
+                                                      color = 'black'), 
+                            panel.border = element_rect(color = 'black', 
+                                                        size = 1))
