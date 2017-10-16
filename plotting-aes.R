@@ -11,7 +11,7 @@ cellcols <- c('host' = 'gray', 'donor' = 'green')
 
 ## And genotype colors
 gencols <- c('wt' = '#D6F9DD', 'het' = '#379A54', 
-             'ko' = '#007300', 'unknown' = 'black')
+             'homo' = '#007300', 'unknown' = 'black')
 
 ## Make object containing aesthetics for the plots (font size, etc)
 looks <- theme_bw() + theme(axis.text = element_text(size = 15, 

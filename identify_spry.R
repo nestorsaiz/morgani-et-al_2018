@@ -5,7 +5,7 @@
 ## Function to do an exploratory plot of GATA6 vs NANOG values for ICM cells
 spread.icm <- function(dataset) {
         ol <- ggplot(dataset, 
-                     aes(x = CH5.ebLogCor, y = CH3.ebLogCor))
+                     aes(x = red.ebLogCor, y = farred.ebLogCor))
         ol <- ol + geom_jitter(aes(color = Cellcount), size = 3, alpha = 0.6)
         ol <- ol + coord_fixed() + theme_bw()
         ol <- ol + theme(axis.text = element_text(size = 15), 
@@ -24,7 +24,8 @@ spread.icm <- function(dataset) {
 ## Using the full range from 32-150 cells generates a continuous cloud
 ## where single clusters cannot be found
 
-bb <- spry %>% filter(Treatment == 'Littermate', 
+bb <- spry %>% filter(Treatment != 'neg.control', 
+                      Genotype2 == 'wt', 
                       ## Exclude litters not stained for GATA6 and NANOG
                       !Litter %in% c('AG', 'V'), 
                       ## Do not subset for wild type embryos
@@ -33,7 +34,7 @@ bb <- spry %>% filter(Treatment == 'Littermate',
                       #Genotype ==  'wt', 
                       Stage %in% c('32_64', '90_120', '120_150'),  
                       TE_ICM %in% c('ICM', 'in')) %>% 
-        select(Cellcount, CH5.ebLogCor, CH3.ebLogCor)
+        select(Cellcount, red.ebLogCor, farred.ebLogCor)
 ## Scatter plot of selected data
 spread.icm(bb)
 
@@ -58,8 +59,8 @@ ssq <- matrix(0, length(spry$TE_ICM[is.icm]), 4)
 ## and populate with min sum of squares for each cell
 ## (min distance to each of the centers for each cell's GATA6 vs NANOG value)
 for(i in 1:4) {
-        ssq[,i] <- (spry$CH5.ebLogCor[is.icm] - centers[i,1])^2 + 
-                (spry$CH3.ebLogCor[is.icm] - centers[i,2])^2
+        ssq[,i] <- (spry$red.ebLogCor[is.icm] - centers[i,1])^2 + 
+                (spry$farred.ebLogCor[is.icm] - centers[i,2])^2
 }
 ## calculate what center each cell is closest to 
 ## (which sum of squares is smallest)
@@ -72,15 +73,16 @@ spry$Identity.km <- rep(NA, nrow(spry))
 spry$Identity.km[is.morula] <- 'morula'
 spry$Identity.km[is.te] <- 'TE'
 ## Assign identity to ICM cells based on min.ssq values
-spry$Identity.km[is.icm] <- c('EPI', 'DP', 'PRE', 'DN')[min.ssq]
+spry$Identity.km[is.icm] <- c('EPI', 'PRE', 'DP', 'DN')[min.ssq]
 spry$Identity.km <- factor(spry$Identity.km, levels = c('TE', 'PRE', 'DP', 
                                                         'EPI', 'DN', 'morula'))
 
 ## Load standard plotting aesthetics
 source('plotting-aes.R')
 ## Plot data by stage to visualize the outcome
-qplot(CH5.ebLogCor,  CH3.ebLogCor,
+qplot(red.ebLogCor,  farred.ebLogCor,
       data = subset(spry, TE_ICM == 'ICM' & Treatment == "Littermate" & 
-                            !Litter %in% c('AG', 'V') & Genotype1 != 'unknown'), 
+                            !Litter %in% c('AG', 'V') & Genotype1 != 'unknown' & 
+                            Genotype2  == 'wt'), 
       color = Identity.km) + looks + scale_color_manual(values = idcols) + 
-        facet_grid(Genotype1 ~ Stage) + coord_fixed()
+        facet_grid(Genotype1 + Experimenter ~ Stage) + coord_fixed()

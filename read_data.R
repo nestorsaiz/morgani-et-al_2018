@@ -191,8 +191,9 @@ spry$Treatment <- factor(spry$Treatment, levels = c('Littermate', 'Control',
                                                     'PD03_1', 'neg.control'))
 spry$green.marker <- factor(spry$green.marker, levels = c('Venus', 'GFP.ck', 
                                                           'no.ab'))
-spry$green.ab2 <- factor(spry$green.ab2, levels = c('af488.ck', 'no.ab'))
+spry$green.ab2 <- factor(spry$green.ab2, levels = c('no.ab', 'af488.ck'))
 spry$TE_ICM <- factor(spry$TE_ICM, levels = c('TE', 'ICM', 'out', 'in'))
+spry$Tt_stage <- factor(spry$Tt_stage, levels = c('8cell', '64_90', '90_120'))
 
 ################################################
 
