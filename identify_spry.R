@@ -73,7 +73,7 @@ spry$Identity.km <- rep(NA, nrow(spry))
 spry$Identity.km[is.morula] <- 'morula'
 spry$Identity.km[is.te] <- 'TE'
 ## Assign identity to ICM cells based on min.ssq values
-spry$Identity.km[is.icm] <- c('EPI', 'PRE', 'DP', 'DN')[min.ssq]
+spry$Identity.km[is.icm] <- c('DP', 'EPI', 'PRE', 'DN')[min.ssq]
 spry$Identity.km <- factor(spry$Identity.km, levels = c('TE', 'PRE', 'DP', 
                                                         'EPI', 'DN', 'morula'))
 
