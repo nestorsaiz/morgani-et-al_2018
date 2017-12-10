@@ -185,7 +185,8 @@ spry <- merge(spry, spy.if)
 ## Order factors as desired
 spry$Genotype1 <- factor(spry$Genotype1, levels = c('wt', 'het', 'homo', 
                                                     'unknown'))
-spry$Genotype2 <- factor(spry$Genotype2, levels = c('wt', 'het', 'ko'))
+spry$Genotype2 <- factor(spry$Genotype2, levels = c('wt', 'het', 'ko', 
+                                                    'unknown'))
 spry$Treatment <- factor(spry$Treatment, levels = c('Littermate', 'Control', 
                                                     'FGF4_1000', 'AZD_1', 
                                                     'PD03_1', 'neg.control'))
@@ -196,6 +197,14 @@ spry$TE_ICM <- factor(spry$TE_ICM, levels = c('TE', 'ICM', 'out', 'in'))
 spry$Tt_stage <- factor(spry$Tt_stage, levels = c('8cell', '64_90', '90_120'))
 
 ################################################
+
+## Write out a table of 'littermates' (non-cultured embryos)
+## stained for NANOG and GATA6 to use for data mining
+lms <- subset(spry, Treatment == 'Littermate' & 
+                      red.marker == 'GATA6.gt' & 
+                      farred.marker == 'NANOG.rb' & 
+                      Genotype2 == 'wt')
+write.csv(lms, file = 'spry_littermates-all.csv', row.names = FALSE)
 
 ## Calculate number of embryos for each group 
 ## (stage x treatment x genotype x IF)
