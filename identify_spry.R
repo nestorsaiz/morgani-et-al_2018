@@ -76,12 +76,11 @@ sns$Identity.km <- rep(NA, nrow(sns))
 sns$Identity.km[is.morula] <- 'morula'
 sns$Identity.km[is.te] <- 'TE'
 ## Assign identity to ICM cells based on min.ssq values
-sns$Identity.km[is.icm] <- c('DP', 'EPI', 'PRE', 'DN')[min.ssq]
+sns$Identity.km[is.icm] <- c('DP', 'PRE', 'EPI', 'DN')[min.ssq]
 
 ## Perform for Vidur's subset of data
 svg <- subset(spry, Experimenter == 'VG')
-bb <- svg %>% filter(Treatment != 'neg.control', 
-                     Genotype2 == 'wt', 
+bb <- svg %>% filter(Genotype2 == 'wt', 
                      ## Do not subset for wild type embryos
                      ## as data shows a similar distribution 
                      ## for wt and hets
@@ -93,13 +92,13 @@ bb <- svg %>% filter(Treatment != 'neg.control',
 ## Scatter plot of selected data
 spread.icm(bb)
 
-## Calculate three centers for bb (DP, PrE and EPI)
+## Calculate three centers for bb (DN, PrE and EPI)
 pp <- kmeans(bb[, 2:3], 3)
 ## Extract the minimum center values for each channel 
 ## and append to the centers list as the DN center
-dn <- c(pp$centers[, 1][which.min(pp$centers[, 1])], 
-        pp$centers[, 2][which.min(pp$centers[, 2])])
-centers.vg <- rbind(pp$centers, dn, deparse.level = 0)
+dp <- c(pp$centers[, 1][which.max(pp$centers[, 1])], 
+        pp$centers[, 2][which.max(pp$centers[, 2])])
+centers.vg <- rbind(pp$centers, dp, deparse.level = 0)
 
 ## Create conditions to test for ICM (is.icm) and morulas (is.morula)
 is.icm <- svg$Cellcount > 31 & svg$TE_ICM == 'ICM'
@@ -125,7 +124,7 @@ svg$Identity.km <- rep(NA, nrow(svg))
 svg$Identity.km[is.morula] <- 'morula'
 svg$Identity.km[is.te] <- 'TE'
 ## Assign identity to ICM cells based on min.ssq values
-svg$Identity.km[is.icm] <- c('DP', 'PRE', 'EPI', 'DN')[min.ssq]
+svg$Identity.km[is.icm] <- c('PRE', 'EPI', 'DN', 'DP')[min.ssq]
 
 ## Combine both subsets into one again
 spry <- rbind(sns, svg)

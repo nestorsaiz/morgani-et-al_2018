@@ -84,6 +84,15 @@ spry <-  merge(spry, spy.ref)
 source('do_counts.R')
 spry <- do.counts(spry)
 
+## Calculate the average number of cells in het embryos
+## for each litter (all litters have hets, but not all have wt)
+## to compare size of different genotypes in each litter
+het.meancount <- spry %>% filter(Experimenter == 'NS', 
+                                Treatment == 'Littermate', 
+                                Genotype1 == 'het') %>% 
+        group_by(Litter) %>% 
+        summarize(het.meancount = mean(Cellcount))
+
 ## Load staging function and stage spry embryos
 source('stage.R')
 spry <- stage(spry)
@@ -172,7 +181,6 @@ rm(spy.aa, spy.bb)
 
 ## Merge modified spy.if for Nestor and Vidur into original
 spy.if <- rbind(spy.if.ns, spy.if.vg)
-spy.if$Experimenter <- NULL
 
 # Merge with main table to divide embryos into
 # those stained with anti-GFP and those with endogenous Venus
