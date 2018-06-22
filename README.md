@@ -10,6 +10,7 @@ Folders
 
 * cor_files_ns: corrected data tables for all individual embryos analyzed by Nestor Saiz.
 * cor_files_vg: corrected data tables for all individual embryos analyzed by Vidur Garg.
+* movie_data: data tables with fluorescence measurements from timelapse movies analyzed in the study. 
 
 Data tables
 
