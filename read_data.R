@@ -212,7 +212,7 @@ lms <- subset(spry, Treatment == 'Littermate' &
                       red.marker == 'GATA6.gt' & 
                       farred.marker == 'NANOG.rb' & 
                       Genotype2 == 'wt')
-write.csv(lms, file = 'spry_littermates-all.csv', row.names = FALSE)
+write.csv(lms, file = 'lms-spry-raw.csv', row.names = FALSE)
 
 ## Calculate number of embryos for each group 
 ## (stage x treatment x genotype x IF)
@@ -231,25 +231,3 @@ write.csv(n.embryos2, file = 'N_numbers.csv', row.names = FALSE)
 
 ## If there are no errors in the code, 'All good :)' should print to the console
 print('All good :)')
-
-# ## Calculate the ratio of PrE to EPI per embryo
-# ## Re-cast table to wide format and filter for ICM cells only
-# spry.ratiocounts <- dcast(spry.lincounts, Experiment + Litter + 
-#                                  Embryo_ID + TE_ICM + Cellcount + 
-#                                  Stage + Exp_date + Img_date +
-#                                  Genotype + Treatment + 
-#                                  venus.gfp + ab.2 ~ Identity.km, 
-#                          value.var = 'count')
-# spry.ratiocounts <- spry.ratiocounts %>% filter(TE_ICM == 'ICM')
-# ## Add EPI and DN numbers
-# aa <- subset(spry.ratiocounts, DN >= 1)
-# aa$DN.EPI <- aa$DN + aa$EPI
-# bb <- subset(spry.ratiocounts, is.na(DN) == TRUE)
-# bb$DN.EPI <- bb$EPI
-# spry.ratiocounts <- rbind(aa, bb)
-# rm(aa, bb)
-# ## Select rows where both PRE and EPI are != 0 
-# ## (otherwise cannot calculate ratio)
-# spry.ratiocounts <- subset(spry.ratiocounts, PRE >= 1 & DN.EPI >= 1)
-# ## Calculate the ratio as PRE/EPI
-# spry.ratiocounts$ratio <- spry.ratiocounts$PRE / spry.ratiocounts$DN.EPI

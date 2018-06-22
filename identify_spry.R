@@ -27,6 +27,8 @@ spread.icm <- function(dataset) {
 set.seed(20170401)
 
 ## Perform for Nestor's subset of data
+## Subset data for stages 32-64 cells + 90-120 and 120-150 cells
+## and use it to find cluster centers
 sns <- subset(spry, Experimenter == 'NS')
 bb <- sns %>% filter(Treatment != 'neg.control', 
                       Genotype2 == 'wt', 
