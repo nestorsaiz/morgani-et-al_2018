@@ -2,9 +2,14 @@
 
 This is the README file for the morgani-et-al_2018 repository associated with the article by Morgani _et al._, _A Sprouty4 reporter to monitor FGF/ERK signaling activity in ESC and mice_ **Developmental Biology** _(in press)_ [insert link here]
 
-This repository contains the R scripts used to clean, transform and analyze the data, as well as the code to generate all plots in the article. All raw data tables, corrected data tables, original microscopy images and segmentation files can be found in Figshare [insert link]
+This repository contains the corrected data tables for all preimplantation embryos analyzed in the study, the R scripts used to clean, transform and analyze the data, as well as the code to generate all plots in the article. All raw data tables, corrected data tables (also), original microscopy images and segmentation files can be found in Figshare [insert link]
 
 ## Files included
+
+Folders
+
+* cor_files_ns: corrected data tables for all individual embryos analyzed by Nestor Saiz.
+* cor_files_vg: corrected data tables for all individual embryos analyzed by Vidur Garg.
 
 Data tables
 
