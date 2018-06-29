@@ -11,14 +11,14 @@ options(stringsAsFactors = F)
 ## Read in data and calculate cell numbers #####
 ################################################
 
-## Read in Nestor's corrected .csv files
+## Read in Nestor Saiz's (NS) corrected .csv files
 setwd("~/Documents/Data_Spry4/spry4_analysis/cor_files_ns")
 files <- dir()
 # Bind them all into a single file
 spry.ns <- do.call(rbind.fill, lapply(files, read.csv))
 rm(files)
 
-## Read in Vidur's corrected .csv files
+## Read in Vidur Garg's (VG) corrected .csv files
 setwd("~/Documents/Data_Spry4/spry4_analysis/cor_files_vg")
 files <- dir()
 # Bind them all into a single file
