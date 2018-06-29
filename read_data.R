@@ -78,6 +78,10 @@ spy.ref <- read.csv('spry4_exp_ref.csv')
 # and combine with main table
 spry <-  merge(spry, spy.ref)
 
+## Remove from dataset embryos with unknown genotypes
+spry <- spry %>% filter(Genotype1 != 'unknown')
+spry <- spry %>% filter(Genotype2 != 'unknown')
+
 ## Calculate total number of cells, 
 ## litter average and
 ## number of ICM cells per embryo
