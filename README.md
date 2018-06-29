@@ -28,5 +28,5 @@ Scripts
 * modas.R: custom function to calculate the mode for fluorescence Channel 2 (Venus or anti-GFP) for ICM cells.
 * stage.R: custom function to assign embryos to developmental stage categories based on their total cell count.
 * plotting-aes.R: contains objects used for aesthetics across figures.
-* figure_3.R and figure_5.R: scripts to generate the plots in the corresponding figures and associated supplementary figures.
+* figure_3.R, figure_4.R and figure_5.R: scripts to generate the plots in the corresponding figures and associated supplementary figures.
 
