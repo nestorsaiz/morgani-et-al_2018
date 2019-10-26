@@ -25,7 +25,7 @@ Data tables
 Scripts
 
 * read_data.R: script to load corrected immunofluorescence data tables (from /cor_files), bind them into a single table, clean up, perform basic analyses, corrections and cell counts. 
-* identify_spry.R: script to assign lineage identity to ICM cells using a basic k-means clustering approach, analogous to that we used in Saiz _et al._ (2016) (see [saiz-et-al_2016](https://github.com/nestorsaiz/saiz-et-al_2016) repo).
+* identify_spry.R: script to assign lineage identity to ICM cells using a basic k-means clustering approach, analogous to that we used in [Saiz _et al._ (2016)](https://www.nature.com/articles/ncomms13463) (see [saiz-et-al_2016](https://github.com/nestorsaiz/saiz-et-al_2016) repo).
 * read_moviedata.R: script to load, do basic transformations and plot data from live imaging experiments (/movie_data). 
 * do_counts: custom function to calculate total cell number, ICM cell number and litter average cell number for the given dataset.
 * eb_cor.R: custom function to correct Z-associated fluorescence decay by fitting a linear regression to the log-transformed values and further correcting using an Emprirical Bayes approach, as we did in Saiz _et al._ (2016) (link in saiz-et-al_2016 repo README.md, see Methods there and script annotations).
