@@ -10,19 +10,19 @@ Scripts should work out of the box when using the .Rproj file and setting the wo
 
 ## Files included
 
-Folders
+**Folders**
 
 * cor_files_ns: corrected data tables for all individual embryos analyzed by Nestor Saiz.
 * cor_files_vg: corrected data tables for all individual embryos analyzed by Vidur Garg.
 * movie_data: data tables with fluorescence measurements from timelapse movies analyzed in the study. 
 
-Data tables
+**Data tables**
 
 * spry4_exp_ref.csv: metadata table with experimental information.
 * spry4_if.csv: metadata table with immunofluorescence details.
 * spry4_mov_exp_ref.csv: metadata table with experimental information for live imaging experiments.
 
-Scripts
+**Scripts**
 
 * read_data.R: script to load corrected immunofluorescence data tables (from /cor_files), bind them into a single table, clean up, perform basic analyses, corrections and cell counts. 
 * identify_spry.R: script to assign lineage identity to ICM cells using a basic k-means clustering approach, analogous to that we used in [Saiz _et al._ (2016)](https://www.nature.com/articles/ncomms13463) (see [saiz-et-al_2016](https://github.com/nestorsaiz/saiz-et-al_2016) repo).
