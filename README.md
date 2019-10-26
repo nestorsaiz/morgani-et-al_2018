@@ -1,6 +1,6 @@
 # Morgani _et al._ (2018) _Developmental Biology_
 
-This is the README file for the morgani-et-al_2018 repository associated with the article by Morgani _et al._, _A Sprouty4 reporter to monitor FGF/ERK signaling activity in ESC and mice_ **Developmental Biology** 441:1 pp104:126 (2018) doi.org/10.1016/j.ydbio.2018.06.017 [https://www.sciencedirect.com/science/article/pii/S0012160618301027?via%3Dihub]
+This is the README file for the morgani-et-al_2018 repository associated with the article by Morgani _et al._, _A Sprouty4 reporter to monitor FGF/ERK signaling activity in ESC and mice_ published in **Developmental Biology** 441:1 pp104:126 (2018) doi.org/10.1016/j.ydbio.2018.06.017 [article here](https://www.sciencedirect.com/science/article/pii/S0012160618301027?via%3Dihub)
 
 This repository contains the corrected data tables for all preimplantation embryos analyzed in the study, the R scripts used to clean, transform and analyze the data, as well as the code to generate all plots in the article. All raw data tables, corrected data tables (also), original microscopy images and segmentation files can be found in Figshare [insert link]
 
