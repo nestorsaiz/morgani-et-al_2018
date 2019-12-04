@@ -21,6 +21,7 @@ Scripts should work out of the box when using the .Rproj file and setting the wo
 * spry4_exp_ref.csv: metadata table with experimental information.
 * spry4_if.csv: metadata table with immunofluorescence details.
 * spry4_mov_exp_ref.csv: metadata table with experimental information for live imaging experiments.
+* spry-all-processed.csv: data table with all files combined, cleaned and transformed - output of ```read_data.R``` 
 
 **Scripts**
 
