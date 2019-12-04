@@ -210,6 +210,9 @@ spry$Tt_stage <- factor(spry$Tt_stage, levels = c('8cell', '64_90', '90_120'))
 
 ################################################
 
+## Write main table out to file for other applications
+write.csv(spry, file = 'spry-all-raw.csv', row.names = FALSE)
+
 ## Write out a table of 'littermates' (non-cultured embryos)
 ## stained for NANOG and GATA6 to use for data mining
 lms <- subset(spry, Treatment == 'Littermate' & 
